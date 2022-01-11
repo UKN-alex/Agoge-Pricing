@@ -5,19 +5,7 @@ public with sharing class OrderItemHelper {
 
 public static void checkFields(List<OrderItem> orderItemList){
     for(OrderItem orderItem : orderItemList) {
-        if(orderItem.Freight__c == null ){
-            //Utilizando-se das criações de Labels para mensagem
-            orderItem.addError(System.label.NotAthorize);
-        }
-        else if (orderItem.Taxes__c == null){
-            //Utilizando-se das criações de Labels para mensagem
-            orderItem.addError(System.label.NotAthorize);
-        }
-        else if (orderItem.MarginName__c == null){
-            //Utilizando-se das criações de Labels para mensagem
-            orderItem.addError(System.label.NotAthorize);
-        }
-        else if (orderItem.Quantity <= 0) {
+         if (orderItem.Quantity <= 0) {
             orderItem.addError(System.label.OrderItemQuantityError);
         }
         else if (orderItem.UnitPrice <= 0) {
