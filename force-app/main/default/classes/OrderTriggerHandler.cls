@@ -14,7 +14,7 @@ public with sharing class OrderTriggerHandler {
     }
 
     public void afterUpdate() {
-        List<OrderItem> UpdateOderList = OrderHelper.checkRecalcItens(this.oldMap, this.newMap);
-        update UpdateOderList;
+        List<OrderItem> updatedOrderItemList = OrderHelper.checkRecalcItens(this.oldMap, this.newMap);
+        update updatedOrderItemList;
     }
 }

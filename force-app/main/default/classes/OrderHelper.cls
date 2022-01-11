@@ -2,7 +2,7 @@ public with sharing class OrderHelper {
     public OrderHelper() {
 
     }
-/*
+
     public static List<OrderItem> checkRecalcItens(Map<Id, Order> oldMap, Map<Id, Order> newMap){
         Set<Id> orderIds = new Set<Id>();
 
@@ -20,12 +20,9 @@ public with sharing class OrderHelper {
             WHERE OrderId IN : orderIds
         ];
 
-        List<OrderItem> updateOrderItemList = OrderItemHelper.calcPrice(orderItemList);
+        List<OrderItem> updatedOrderItemList = OrderItemHelper.calcPrice(orderItemList);
 
-        return updateOrderItemList;
-
-
-        
+        return updatedOrderItemList;
     }
-    */
+    
 }

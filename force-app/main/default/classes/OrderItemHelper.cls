@@ -26,7 +26,7 @@ public static void checkFields(List<OrderItem> orderItemList){
     }
 }
 
-public static void calcPrice(List<OrderItem> orderItemList){
+public static List<OrderItem> calcPrice(List<OrderItem> orderItemList){
     //Carregamento dos dados relacionados ao OrderItem
     Set<Id> orderIdSet = new Set<Id>();
     Set<Id> productIdSet = new Set<Id>();
@@ -123,6 +123,7 @@ public static void calcPrice(List<OrderItem> orderItemList){
              orderItemFreight.DiscountPercent__c = discountPercent;
         }
     }
+    return new List<OrderItem>(orderItemToFreight.keySet());
 }
 
     public static  Map<OrderItem, Margin__c> searchMargin (List<OrderItem> orderItemList, Map<Id,Order> orderMap, Map<Id, Product2> productMap){
@@ -284,8 +285,9 @@ public static void calcPrice(List<OrderItem> orderItemList){
         List<Taxes__c> taxesList =[
             SELECT Id, DistribuitionCenter__c, States__c, Imposto__c, Product__c, Name
             FROM Taxes__c
-            WHERE (Product__c IN: productIds OR Product__c = null) 
-                  
+            WHERE (Product__c IN: productIds OR Product__c = null) OR  
+                  (DistribuitionCenter__c IN: distribuitionCenterIds OR DistribuitionCenter__c = null) OR
+                  (States__c IN: stateIds OR States__c = null)   
                   
         ];
         System.debug('taxes list' + taxesList);
@@ -307,8 +309,9 @@ public static void calcPrice(List<OrderItem> orderItemList){
 
     // método para realizar o match entre order e os impostos.
     public static Boolean matchTax(Taxes__c taxes, OrderItem orderItem, Map<Id, Order> orderMap, Map<Id, Product2> productMap){
-        return (String.isBlank(taxes.Product__c)      || taxes.Product__c             == orderItem.Product2Id);
-        
+        return (String.isBlank(taxes.Product__c)                  || taxes.Product__c                         == orderItem.Product2Id) ||
+               (String.isBlank(taxes.DistribuitionCenter__c)      || taxes.DistribuitionCenter__c             == orderMap.get(orderItem.OrderId).DistribuitionCenter__c)||
+               (String.isBlank(taxes.States__c)                   || taxes.States__c                          == orderMap.get(orderItem.OrderId).AccountAddress__r.City__r.State__c);
     }
     
 }
